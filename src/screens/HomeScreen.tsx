@@ -20,11 +20,11 @@ const HomeScreen = () => {
   const translateY = useSharedValue(-200);
   const { playSound } = useSound();
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     playSound('bg', true);
-  //   }
-  // }, [isFocused]);
+  useEffect(() => {
+    if (isFocused) {
+      playSound('bg', true);
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (isFocused) {
