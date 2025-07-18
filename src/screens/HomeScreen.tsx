@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSound } from '../navigation/SoundContext';
+import LottieView from 'lottie-react-native';
 
 const HomeScreen = () => {
   const isFocused = useIsFocused();
@@ -16,11 +17,11 @@ const HomeScreen = () => {
   const translateY = useSharedValue(-200);
   const { playSound } = useSound();
 
-  useEffect(() => {
-    if (isFocused) {
-      playSound('bg', true);
-    }
-  }, [isFocused]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     playSound('bg', true);
+  //   }
+  // }, [isFocused]);
 
   useEffect(() => {
     if (isFocused) {
@@ -43,6 +44,23 @@ const HomeScreen = () => {
         source={require('../assets/images/banner.png')}
         style={[styles.img, animatedStyle]}
       ></Animated.Image>
+
+      <LottieView
+        source={require('../assets/animations/bird.json')}
+        speed={1}
+        loop
+        autoPlay
+        hardwareAccelerationAndroid
+        style={styles.lottieviewLeft}
+      />
+      <LottieView
+        source={require('../assets/animations/bird.json')}
+        speed={1}
+        loop
+        autoPlay
+        hardwareAccelerationAndroid
+        style={styles.lottieviewRight}
+      />
     </ImageBackground>
   );
 };
@@ -56,5 +74,21 @@ const styles = StyleSheet.create({
     top: -20,
     height: screenWidth * 0.8,
     resizeMode: 'contain',
+  },
+  lottieviewLeft: {
+    width: 200,
+    height: 200,
+    position: 'absolute',
+    left: -20,
+    top: '30%',
+    transform: [{ scaleX: -1 }],
+  },
+  lottieviewRight: {
+    width: 200,
+    height: 200,
+    position: 'absolute',
+    right: -20,
+    top: '30%',
+    transform: [{ scaleX: 1 }],
   },
 });
