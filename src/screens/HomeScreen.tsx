@@ -22,7 +22,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (isFocused) {
-      playSound('bg', true);
+      // playSound('bg', true);
     }
   }, [isFocused]);
 
@@ -64,6 +64,7 @@ const HomeScreen = () => {
         hardwareAccelerationAndroid
         style={styles.lottieviewRight}
       />
+
       <ScalePress
         style={styles.playButtonConatiner}
         onPress={() => navigate('LevelScreen')}

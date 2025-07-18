@@ -6,6 +6,8 @@ import {
   gestureHandlerRootHOC,
   PanGestureHandler,
 } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
+import { getCandyImage } from '../../utils/data';
 
 interface GameTileProps {
   data: any[][];
@@ -37,7 +39,15 @@ const GameTile: FC<GameTileProps> = ({
                   styles.tile,
                   tile === null ? styles.emptyTile : styles.activeTile,
                 ]}
-              />
+              >
+                {tile !== null && (
+                  <Animated.Image
+                    source={getCandyImage(tile)}
+                    style={[styles.candy]}
+                    resizeMode="contain"
+                  />
+                )}
+              </View>
             </PanGestureHandler>
           ))}
         </View>
@@ -74,5 +84,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#32E9A1',
     borderWidth: 0.6,
     borderColor: '#666',
+  },
+  candy: {
+    width: '90%',
+    height: '90%',
   },
 });
