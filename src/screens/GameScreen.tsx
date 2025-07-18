@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import Navigation from './src/navigation/Navigation';
 
-const App = () => {
-  return <Navigation />;
+const GameScreen = () => {
+  return (
+    <View>
+      <Text>GameScreen</Text>
+    </View>
+  );
 };
 
-export default App;
+export default GameScreen;
 
 const styles = StyleSheet.create({});
