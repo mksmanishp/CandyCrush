@@ -142,26 +142,24 @@ const useGameLogic = (
       return;
     }
     if (state === State.END) {
-      const { translateX, translateY } = event.nativeEvent;
-      const absX = Math.abs(translateX);
-      const absY = Math.abs(translateY);
+      const { translationX, translationY } = event.nativeEvent;
+      const absX = Math.abs(translationX);
+      const absY = Math.abs(translationY);
 
       if (absX > absY) {
-        if (translateX > 0) {
-          await handleSwipe(rowIndex, colIndex, 'right', setCollectedCandies);
+        if (translationX > 0) {
+          handleSwipe(rowIndex, colIndex, 'right', setCollectedCandies);
         } else {
-          await handleSwipe(rowIndex, colIndex, 'left', setCollectedCandies);
+          handleSwipe(rowIndex, colIndex, 'left', setCollectedCandies);
         }
       } else {
-        if (translateY > 0) {
-          await handleSwipe(rowIndex, colIndex, 'down', setCollectedCandies);
+        if (translationY > 0) {
+          handleSwipe(rowIndex, colIndex, 'down', setCollectedCandies);
         } else {
-          await handleSwipe(rowIndex, colIndex, 'up', setCollectedCandies);
+          handleSwipe(rowIndex, colIndex, 'up', setCollectedCandies);
         }
       }
     }
-    // TODO: Gesture logic here
-    // You can use: setData([...]), animatedValues.current[rowIndex][colIndex], setCollectedCandies?.([...])
   };
 
   return {

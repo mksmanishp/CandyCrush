@@ -30,7 +30,6 @@ const GameTile: FC<GameTileProps> = ({
         <View key={rowIndex} style={styles.row}>
           {row.map((tile, colIndex) => {
             const isEmpty = tile === null;
-            const animatedValue = animatedValues?.[rowIndex]?.[colIndex];
 
             return (
               <PanGestureHandler
@@ -60,19 +59,25 @@ const GameTile: FC<GameTileProps> = ({
                     isEmpty ? styles.emptyTile : styles.activeTile,
                   ]}
                 >
-                  {!isEmpty && (
+                  {tile !== null && (
                     <Animated.Image
                       source={getCandyImage(tile)}
                       style={[
                         styles.candy,
-                        animatedValue
-                          ? {
+                        tile === null || !animatedValues[rowIndex][colIndex]
+                          ? {}
+                          : {
                               transform: [
-                                { translateX: animatedValue.x },
-                                { translateY: animatedValue.y },
+                                {
+                                  translateX:
+                                    animatedValues[rowIndex][colIndex].x,
+                                },
+                                {
+                                  translateY:
+                                    animatedValues[rowIndex][colIndex].y,
+                                },
                               ],
-                            }
-                          : {},
+                            },
                       ]}
                       resizeMode="contain"
                     />
