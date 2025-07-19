@@ -22,7 +22,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (isFocused) {
-      // playSound('bg', true);
+      playSound('bg', true);
     }
   }, [isFocused]);
 

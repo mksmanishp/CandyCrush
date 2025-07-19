@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Animated } from 'react-native';
 import React, { FC } from 'react';
 import { screenHeight } from '../../utils/Constants';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import {
   gestureHandlerRootHOC,
   PanGestureHandler,
+  State,
 } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+
 import { getCandyImage } from '../../utils/data';
+import useGameLogic from '../Gamelogic/useGameLogic';
 
 interface GameTileProps {
   data: any[][];
@@ -20,36 +22,65 @@ const GameTile: FC<GameTileProps> = ({
   setData,
   setCollectedCandies,
 }) => {
+  const { handleGesture, animatedValues } = useGameLogic(data, setData);
+
   return (
     <View style={styles.flex2}>
       {data.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
-          {row.map((tile, colIndex) => (
-            <PanGestureHandler
-              key={`${rowIndex}-${colIndex}`}
-              onGestureEvent={event => {
-                // TODO: Implement drag logic
-              }}
-              onHandlerStateChange={event => {
-                // TODO: Implement gesture end logic
-              }}
-            >
-              <View
-                style={[
-                  styles.tile,
-                  tile === null ? styles.emptyTile : styles.activeTile,
-                ]}
+          {row.map((tile, colIndex) => {
+            const isEmpty = tile === null;
+            const animatedValue = animatedValues?.[rowIndex]?.[colIndex];
+
+            return (
+              <PanGestureHandler
+                key={`${rowIndex}-${colIndex}`}
+                onGestureEvent={event =>
+                  handleGesture(
+                    event,
+                    rowIndex,
+                    colIndex,
+                    State.ACTIVE,
+                    setCollectedCandies,
+                  )
+                }
+                onHandlerStateChange={event =>
+                  handleGesture(
+                    event,
+                    rowIndex,
+                    colIndex,
+                    event?.nativeEvent?.state,
+                    setCollectedCandies,
+                  )
+                }
               >
-                {tile !== null && (
-                  <Animated.Image
-                    source={getCandyImage(tile)}
-                    style={[styles.candy]}
-                    resizeMode="contain"
-                  />
-                )}
-              </View>
-            </PanGestureHandler>
-          ))}
+                <View
+                  style={[
+                    styles.tile,
+                    isEmpty ? styles.emptyTile : styles.activeTile,
+                  ]}
+                >
+                  {!isEmpty && (
+                    <Animated.Image
+                      source={getCandyImage(tile)}
+                      style={[
+                        styles.candy,
+                        animatedValue
+                          ? {
+                              transform: [
+                                { translateX: animatedValue.x },
+                                { translateY: animatedValue.y },
+                              ],
+                            }
+                          : {},
+                      ]}
+                      resizeMode="contain"
+                    />
+                  )}
+                </View>
+              </PanGestureHandler>
+            );
+          })}
         </View>
       ))}
     </View>
